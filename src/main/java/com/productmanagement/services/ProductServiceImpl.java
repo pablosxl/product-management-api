@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
 
 	private ProductRepository productRepository;
 	private CategoryRepository categoryRepository;
+	private CategoryService categoryService;
 	
 	@Override
 	public Product create(CreateOrUpdateProductRequest product) {
@@ -56,6 +56,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getProductsByCategoryId(UUID categoryId) {
 		// TODO Auto-generated method stub
+		//return this.categoryService.getProductsByCategory(categoryId);
+		
 		return this.productRepository.findByCategoryId(categoryId);
 	}
 

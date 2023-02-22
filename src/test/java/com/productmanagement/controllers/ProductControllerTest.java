@@ -8,7 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -47,7 +49,7 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 		
 	@MockBean
-	private ProductService productService;
+	private ProductService productService; //= Mockito.mock(ProductService.class);
 	
 	
 	@Test
@@ -80,6 +82,21 @@ public class ProductControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.id").value(ID.toString()));
+		
+	}
+	
+	@Test
+	public void testGetProductsByCategoryId() throws Exception {
+		List<Product> products = new ArrayList<Product>();
+		products.add(CREATE_PRODUCT_RESPONSE);
+		
+		when(productService.getProductsByCategoryId(Mockito.any())).thenReturn(products);
+		
+		mockMvc.perform(get("/product/category/{id}", CATEGORY_ID))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$[0].id").value(ID.toString()));
 		
 	}
 }

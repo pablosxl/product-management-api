@@ -35,7 +35,7 @@ public class Category {
 
 	private Date lastUpdateDate;
 	
-	@OneToMany(targetEntity=Product.class )
+	@OneToMany(targetEntity=Product.class)
     private Set<Product> products;
 	
 }
